@@ -1,4 +1,4 @@
-Django==1.8.4
+Django==1.11.28
 dj-static==0.0.6
 gunicorn==19.3
 psycopg2==2.6.1

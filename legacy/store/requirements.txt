@@ -1,5 +1,5 @@
 Cartridge==0.10.0
-Django==1.8.4
+Django==1.11.28
 Mezzanine==4.0.1
 Pillow==2.9.0
 PyPDF2==1.25.1

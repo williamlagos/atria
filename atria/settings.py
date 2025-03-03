@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
-import django_heroku
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -46,7 +45,7 @@ INSTALLED_APPS = [
     'plethora.plethora',
     'emporio.emporio',
     'feedly.feedly',
-    'contents.apps.ContentsAdminConfig',
+    'atria.apps.ContentsAdminConfig',
     # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -66,7 +65,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'contents.urls'
+ROOT_URLCONF = 'atria.urls'
 
 TEMPLATES = [
     {
@@ -84,7 +83,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'contents.wsgi.application'
+WSGI_APPLICATION = 'atria.wsgi.application'
 
 
 # Database
@@ -145,4 +144,4 @@ LOCALE_DATE = ("Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
 # DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
 # DROPBOX_OAUTH2_TOKEN = ''
 
-django_heroku.settings(locals())
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

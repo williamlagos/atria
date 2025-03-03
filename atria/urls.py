@@ -27,9 +27,11 @@ from django.urls import include, path
 from .apis import *
 from .admin import dashboard
 
+
 class HealthCheckView(View):
     def get(self, request):
         return JsonResponse({'health': 'success'})
+
 
 urlpatterns = [
     path('', HealthCheckView.as_view()),

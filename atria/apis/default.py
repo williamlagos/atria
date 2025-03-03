@@ -21,17 +21,15 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
 from django.db.models.fields.related import ManyToOneRel, RelatedField
-from restless.dj import DjangoResource
-from restless.exceptions import NotFound, BadRequest
-from restless.preparers import FieldsPreparer, SubPreparer
+from django.views import View
+from django.urls import path
 
-isnot_fk = lambda field: not isinstance(field, (RelatedField, ManyToOneRel))
 
-class DefaultResource(DjangoResource):
-    pass
+def isnot_fk(field): return not isinstance(field, (RelatedField, ManyToOneRel))
 
-class DefaultServiceResource(DjangoResource):
-    
+
+class DefaultServiceResource(View):
+
     service = None
 
     def __init__(self, *args, **kwargs):
@@ -42,16 +40,18 @@ class DefaultServiceResource(DjangoResource):
                 self.fields[field.name] = field.name
             else:
                 nested_field_names = field.remote_field.model._meta.get_fields()
-                nested_fields = {f.name: f.name for f in nested_field_names if isnot_fk(f)}
-                self.fields[field.name] = SubPreparer(field.name, FieldsPreparer(nested_fields)) 
-                
+                nested_fields = {
+                    f.name: f.name for f in nested_field_names if isnot_fk(f)}
+                # self.fields[field.name] = SubPreparer(
+                #     field.name, FieldsPreparer(nested_fields))
+
         # Alternative implementation, using dict comprehensions
         # model_fields = self.service.model._meta.get_fields()
         # flat_fields = {f.name: f.name for f in model_fields if isnot_fk(f)}
         # nested = lambda f: {f.name: f.name for f in f.remote_field.model._meta.get_fields() if isnot_fk(f)}
         # nested_fields = {f.name: SubPreparer(f.name, FieldsPreparer(nested(f))) for f in model_fields if not isnot_fk(f)}
         # self.fields = {**nested_fields, **flat_fields}
-        self.preparer = FieldsPreparer(self.fields)
+        # self.preparer = FieldsPreparer(self.fields)
 
     def is_authenticated(self):
         # Open everything wide!
@@ -68,7 +68,7 @@ class DefaultServiceResource(DjangoResource):
         #     return True
         # except ApiKey.DoesNotExist:
         #     return False
-    
+
     # GET /
     def list(self):
         return self.service.model.objects.all()
@@ -95,3 +95,12 @@ class DefaultServiceResource(DjangoResource):
     # DELETE /<pk>/
     def delete(self, pk):
         self.service.model.objects.filter(id=pk).delete()
+
+    @staticmethod
+    def urls():
+        return [
+            path('', DefaultServiceResource.list),
+            path('<int:pk>/', DefaultServiceResource.detail),
+            path('<int:pk>/', DefaultServiceResource.update),
+            path('<int:pk>/', DefaultServiceResource.delete),
+        ]

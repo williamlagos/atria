@@ -20,9 +20,10 @@
 
 from shipping.shipping.services import RateService
 
-from .default import DefaultResource
+from .default import DefaultServiceResource
 
-class RateResource(DefaultResource):
+
+class RateResource(DefaultServiceResource):
 
     service = RateService()
 

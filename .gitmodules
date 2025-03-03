@@ -1,6 +1,3 @@
-[submodule "packages/dashboarder"]
-	path = dashboarder
-	url = git@github.com:williamlagos/django-dashboarder
 [submodule "packages/shipping"]
 	path = shipping
 	url = git@github.com:williamlagos/django-shipping

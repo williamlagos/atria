@@ -1,15 +1,20 @@
-[submodule "packages/shipping"]
+[submodule "shipping"]
 	path = shipping
 	url = git@github.com:williamlagos/django-shipping
-[submodule "packages/socialize"]
+	branch = master
+[submodule "socialize"]
 	path = socialize
 	url = git@github.com:williamlagos/django-socialize
-[submodule "packages/feedly"]
+	branch = master
+[submodule "feedly"]
 	path = feedly
 	url = git@github.com:williamlagos/django-feedly
+	branch = master
 [submodule "emporio"]
 	path = emporio
 	url = git@github.com:williamlagos/django-emporio
+	branch = master
 [submodule "plethora"]
 	path = plethora
 	url = git@github.com:williamlagos/django-plethora
+	branch = master

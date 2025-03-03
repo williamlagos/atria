@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+import django_heroku
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -39,10 +40,8 @@ INSTALLED_APPS = [
     # 'plethora',
     # 'shipping',
     # 'socialize',
-    # 'dashboarder',
     # Development mode, inject modules directly
-    'dashboarder.dashboarder',
-    'socialize.socialize',   
+    'socialize.socialize',
     'shipping.shipping',
     'plethora.plethora',
     'emporio.emporio',
@@ -139,12 +138,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 
-
 # Other settings, to be modified or discarded
-LOCALE_DATE = ("Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez")
+LOCALE_DATE = ("Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
+               "Jul", "Ago", "Set", "Out", "Nov", "Dez")
 
 # DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
 # DROPBOX_OAUTH2_TOKEN = ''
 
-import django_heroku
 django_heroku.settings(locals())

@@ -14,7 +14,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.views import View
-from django.contrib import admin
 from django.http import JsonResponse
 from django.urls import include, path
 
@@ -25,7 +24,6 @@ from django.urls import include, path
 # from feedly.feedly.urls import urlpatterns as feedly_patterns
 
 from .apis import *
-from .admin import dashboard
 
 
 class HealthCheckView(View):
@@ -35,7 +33,6 @@ class HealthCheckView(View):
 
 urlpatterns = [
     path('', HealthCheckView.as_view()),
-    path('dashboard/', dashboard.urls),
     path('v1/', include([
         path('accounts/', include(AccountResource.urls())),
         path('deliveries/', include(DeliveryResource.urls())),

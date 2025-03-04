@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'shipping.shipping',
     'plethora.plethora',
     'emporio.emporio',
-    'atria.apps.ContentsAdminConfig',
     # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

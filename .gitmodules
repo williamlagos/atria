@@ -6,10 +6,6 @@
 	path = socialize
 	url = git@github.com:williamlagos/django-socialize
 	branch = master
-[submodule "feedly"]
-	path = feedly
-	url = git@github.com:williamlagos/django-feedly
-	branch = master
 [submodule "emporio"]
 	path = emporio
 	url = git@github.com:williamlagos/django-emporio

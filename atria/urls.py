@@ -41,7 +41,6 @@ urlpatterns = [
         path('deliveries/', include(DeliveryResource.urls())),
         path('products/', include(ProductResource.urls())),
         path('contents/', include(ContentResource.urls())),
-        path('blocks/', include(BlockResource.urls())),
         path('baskets/', include(BasketResource.urls())),
         path('orders/', include(OrderResource.urls())),
         path('rates/', include(RateResource.urls())),

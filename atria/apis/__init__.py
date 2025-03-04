@@ -20,7 +20,6 @@
 
 from .accounts import *
 from .baskets import *
-from .blocks import *
 from .contents import *
 from .deliveries import *
 from .orders import *

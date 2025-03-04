@@ -34,7 +34,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 INSTALLED_APPS = [
     # Production mode, get modules from pip
     'corsheaders',
-    # 'feedly',
     # 'emporio',
     # 'plethora',
     # 'shipping',
@@ -44,7 +43,6 @@ INSTALLED_APPS = [
     'shipping.shipping',
     'plethora.plethora',
     'emporio.emporio',
-    'feedly.feedly',
     'atria.apps.ContentsAdminConfig',
     # 'django.contrib.admin',
     'django.contrib.auth',

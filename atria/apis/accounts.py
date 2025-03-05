@@ -18,12 +18,11 @@
 # along with Emporio. If not, see <http://www.gnu.org/licenses/>.
 #
 
-from socialize.socialize.services import SocialService
+from socialize.socialize.views import ActorService
 
 from .default import DefaultServiceResource
 
+
 class AccountResource(DefaultServiceResource):
 
-    service = SocialService()
-
-
+    service = ActorService()

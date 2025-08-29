@@ -1,19 +1,23 @@
 [coverage:run]
 source = .
 omit =
-    */tests/*
-    */migrations/*
-    setup.py
-    manage.py
-    */wsgi.py
-    */asgi.py
-    */settings*.py
+*/tests/*
+*/migrations/*
+setup.py
+manage.py
+*/wsgi.py
+*/asgi.py
+*/settings*.py
 
 [coverage:report]
 exclude_lines =
-    pragma: no cover
-    def __repr__
-    if self.debug:
+pragma: no cover
+
+
+def __repr__
+
+
+if self.debug:
     raise NotImplementedError
     if __name__ == .__main__.:
     pass

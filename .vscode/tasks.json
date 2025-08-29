@@ -1,26 +1,48 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"type": "docker-build",
-			"label": "docker-build",
-			"platform": "python",
-			"dockerBuild": {
-				"tag": "contents:latest",
-				"dockerfile": "${workspaceFolder}/Dockerfile",
-				"context": "${workspaceFolder}",
-				"pull": true
-			}
-		},
-		{
-			"type": "docker-run",
-			"label": "docker-run: debug",
-			"dependsOn": [
-				"docker-build"
-			],
-			"python": {
-				"file": "manage.py"
-			}
-		}
-	]
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "docker-build",
+            "label": "docker-build",
+            "platform": "python",
+            "dockerBuild": {
+                "tag": "atria:dev",
+                "dockerfile": "${workspaceFolder}/.devcontainer/Dockerfile",
+                "context": "${workspaceFolder}",
+                "pull": true,
+                "args": {
+                    "VARIANT": "3.9"
+                }
+            }
+        },
+        {
+            "type": "docker-run",
+            "label": "docker-run: debug",
+            "dependsOn": ["docker-build"],
+            "dockerRun": {
+                "env": {
+                    "DEBUG": "1",
+                    "DJANGO_SETTINGS_MODULE": "atria.settings",
+                    "PYTHONPATH": "/app"
+                }
+            },
+            "python": {
+                "file": "manage.py",
+                "args": ["runserver", "0.0.0.0:8000"]
+            }
+        },
+        {
+            "label": "pytest",
+            "type": "shell",
+            "command": "pytest",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        }
+    ]
 }

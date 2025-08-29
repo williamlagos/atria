@@ -1,28 +1,43 @@
-# For more information, please refer to https://aka.ms/vscode-docker-python
+# Use your base image for development
 FROM williamlagos/eos:latest
 
-# Keeps Python from generating .pyc files in the container
-ENV PYTHONDONTWRITEBYTECODE 1
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONBREAKPOINT=ipdb.set_trace \
+    UV_VERSION=0.1.13 \
+    DJANGO_SETTINGS_MODULE=atria.settings \
+    PATH="/home/vscode/.local/bin:${PATH}"
 
-# Turns off buffering for easier container logging
-ENV PYTHONUNBUFFERED 1
+# Install system dependencies
+RUN pacman --noconfirm -Syu \
+    python \
+    python-pip \
+    git \
+    curl \
+    postgresql-libs \
+    && pacman -Scc --noconfirm
 
-# Install python enviroment
-RUN pacman --noconfirm -Syu python python-pip
+# Install uv
+RUN curl -LsSf https://github.com/astral-sh/uv/releases/download/${UV_VERSION}/uv-linux-amd64.tar.gz | \
+    tar zxf - -C /usr/local/bin
 
-# Install pip requirements
-ADD requirements.txt .
-RUN python -m pip install -r requirements.txt
+# Create non-root user
+RUN useradd -m -s /bin/bash vscode \
+    && mkdir -p /app \
+    && chown -R vscode:vscode /app
 
+# Switch to non-root user
+USER vscode
 WORKDIR /app
-ADD . /app
 
-# Switching to a non-root user, please refer to https://aka.ms/vscode-docker-python-user-rights
-# RUN useradd appuser && chown -R appuser /app
-# USER appuser
+# We'll mount the project directory in devcontainer.json
+# No need to copy files here
 
-# EXPOSE 8000
+# Install development tools
+RUN uv pip install --user \
+    ipdb \
+    debugpy
 
-# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
-# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-CMD gunicorn --bind 0.0.0.0:$PORT contents.wsgi 
+# The command will be overridden by devcontainer.json
+CMD ["sleep", "infinity"] 

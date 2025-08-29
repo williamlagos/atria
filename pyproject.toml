@@ -1,0 +1,116 @@
+[project]
+name = "atria"
+version = "0.1.0"
+description = "Django-based e-commerce and content management system"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+keywords = ["django", "ecommerce", "cms", "web"]
+authors = [
+    {name = "William Oliveira de Lagos", email = "william.lagos@icloud.com"},
+]
+maintainers = [
+    {name = "William Oliveira de Lagos", email = "william.lagos@icloud.com"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+]
+dependencies = [
+    "django>=3.0.7",
+    "pillow>=7.1.2",
+    "asgiref>=3.2.7",
+    "pytz>=2019.3",
+    "sqlparse>=0.3.1",
+    "gunicorn>=20.0.4",
+    "django-storages>=1.9.1",
+    "django-heroku>=0.3.1",
+    "django-cors-headers>=3.5.0",
+    "django-pure-pagination>=0.3.0",
+    "django-crispy-forms>=1.9.0",
+    "paypalrestsdk>=1.13.1",
+    "pagseguro>=0.3.4",
+    "oauth2>=1.9.0.post1",
+]
+
+[project.optional-dependencies]
+dev = [
+    # Local development packages
+    "django-shipping @ file:///${PROJECT_ROOT}/shipping",
+    "django-socialize @ file:///${PROJECT_ROOT}/socialize",
+    "django-emporio @ file:///${PROJECT_ROOT}/emporio",
+    "django-plethora @ file:///${PROJECT_ROOT}/plethora",
+    # Development tools
+    "black>=23.7.0",
+    "isort>=5.12.0",
+    "mypy>=1.5.1",
+    "flake8>=6.1.0",
+    "pytest>=7.4.0",
+    "pytest-django>=4.5.2",
+    "pytest-cov>=4.1.0",
+    "django-debug-toolbar>=4.2.0",
+    "django-extensions>=3.2.3",
+    "ipython>=8.14.0",
+]
+
+prod = [
+    "django-shipping @ git+ssh://git@github.com/williamlagos/django-shipping.git@master",
+    "django-socialize @ git+ssh://git@github.com/williamlagos/django-socialize.git@master",
+    "django-emporio @ git+ssh://git@github.com/williamlagos/django-emporio.git@master",
+    "django-plethora @ git+ssh://git@github.com/williamlagos/django-plethora.git@master",
+]
+
+[project.urls]
+Homepage = "https://github.com/williamlagos/django-emporio"
+Documentation = "https://github.com/williamlagos/django-emporio/wiki"
+Repository = "https://github.com/williamlagos/django-emporio.git"
+Issues = "https://github.com/williamlagos/django-emporio/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["atria"]
+
+[tool.black]
+line-length = 88
+target-version = ["py37", "py38", "py39"]
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.mypy]
+python_version = "3.7"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+plugins = ["mypy_django_plugin.main"]
+
+[tool.mypy.plugins.django-stubs]
+django_settings_module = "atria.settings"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "atria.settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+addopts = "--doctest-modules --cov=. --cov-report=term-missing"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]

@@ -13,39 +13,42 @@ Atria is an **open-source decentralized social marketplace** that merges **socia
 
 ## Security Features
 
-- **Environment-based Configuration**: All sensitive settings managed via environment variables
-- **Secure by Default**: Production-ready security settings enabled out of the box
-- **HTTPS Enforcement**: Automatic HTTPS redirection and HSTS configuration
-- **XSS Protection**: Browser XSS filtering and Content Security Policy
-- **CSRF Protection**: Configurable trusted origins and secure cookie handling
-- **Secret Management**: No hardcoded secrets, all managed via environment variables
+-   **Environment-based Configuration**: All sensitive settings managed via environment variables
+-   **Secure by Default**: Production-ready security settings enabled out of the box
+-   **HTTPS Enforcement**: Automatic HTTPS redirection and HSTS configuration
+-   **XSS Protection**: Browser XSS filtering and Content Security Policy
+-   **CSRF Protection**: Configurable trusted origins and secure cookie handling
+-   **Secret Management**: No hardcoded secrets, all managed via environment variables
 
 ## Getting Started
 
 1. Clone the repository:
+
     ```bash
     git clone https://github.com/yourusername/atria.git
     cd atria
     ```
 
 2. Set up your environment:
+
     ```bash
     # Create and activate a virtual environment
     python -m venv .venv
     source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-    
+
     # Install development dependencies using uv
     ./scripts/setup_dev.py
     ```
 
 3. Configure your environment:
+
     ```bash
     # Copy the environment template
     cp .env.example .env
-    
+
     # Generate a secure secret key
     python -c "import secrets; print(secrets.token_urlsafe(50))"
-    
+
     # Edit .env with your settings
     nano .env  # or use your preferred editor
     ```
@@ -61,21 +64,25 @@ Atria is an **open-source decentralized social marketplace** that merges **socia
 The project uses environment variables for configuration. Key variables include:
 
 ### Required Settings
-- `SECRET_KEY`: Django secret key for cryptographic operations
-- `ALLOWED_HOSTS`: Comma-separated list of allowed hosts
-- `DEBUG`: Set to 0 in production, 1 for development
-- `DATABASE_URL`: Database connection string
+
+-   `SECRET_KEY`: Django secret key for cryptographic operations
+-   `ALLOWED_HOSTS`: Comma-separated list of allowed hosts
+-   `DEBUG`: Set to 0 in production, 1 for development
+-   `DATABASE_URL`: Database connection string
 
 ### Security Settings
-- `CSRF_TRUSTED_ORIGINS`: List of trusted origins for CSRF protection
-- `SECURE_SSL_REDIRECT`: Force HTTPS (recommended in production)
-- `SESSION_COOKIE_SECURE`: Secure session cookies (HTTPS only)
-- `CSRF_COOKIE_SECURE`: Secure CSRF cookies (HTTPS only)
+
+-   `CSRF_TRUSTED_ORIGINS`: List of trusted origins for CSRF protection
+-   `SECURE_SSL_REDIRECT`: Force HTTPS (recommended in production)
+-   `SESSION_COOKIE_SECURE`: Secure session cookies (HTTPS only)
+-   `CSRF_COOKIE_SECURE`: Secure CSRF cookies (HTTPS only)
 
 ### Optional Features
-- `PAYPAL_CLIENT_ID`: PayPal integration credentials
-- `DROPBOX_OAUTH2_TOKEN`: Dropbox storage integration
-- Additional settings as needed for your deployment
+
+-   `PAYPAL_CLIENT_ID`: PayPal integration credentials
+-   `DROPBOX_OAUTH2_TOKEN`: Dropbox storage integration
+-   Additional settings as needed for your deployment
+
 2. Install dependencies:
     ```bash
     pip install -r requirements.txt

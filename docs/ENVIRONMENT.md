@@ -5,45 +5,51 @@ This document describes all environment variables used in the Atria platform.
 ## Core Settings
 
 ### Django Configuration
-| Variable | Description | Default | Required |
-|----------|-------------|---------|----------|
-| `DEBUG` | Enable debug mode | `0` | Yes |
-| `SECRET_KEY` | Django secret key | None | Yes |
-| `ALLOWED_HOSTS` | Comma-separated list of allowed hosts | None | Yes |
-| `DJANGO_SETTINGS_MODULE` | Python path to settings module | `atria.settings` | Yes |
+
+| Variable                 | Description                           | Default          | Required |
+| ------------------------ | ------------------------------------- | ---------------- | -------- |
+| `DEBUG`                  | Enable debug mode                     | `0`              | Yes      |
+| `SECRET_KEY`             | Django secret key                     | None             | Yes      |
+| `ALLOWED_HOSTS`          | Comma-separated list of allowed hosts | None             | Yes      |
+| `DJANGO_SETTINGS_MODULE` | Python path to settings module        | `atria.settings` | Yes      |
 
 ### Database Configuration
-| Variable | Description | Default | Required |
-|----------|-------------|---------|----------|
-| `DATABASE_URL` | Database connection URL | None | Yes |
-| `DB_PASSWORD` | Database password | None | Yes |
+
+| Variable       | Description             | Default | Required |
+| -------------- | ----------------------- | ------- | -------- |
+| `DATABASE_URL` | Database connection URL | None    | Yes      |
+| `DB_PASSWORD`  | Database password       | None    | Yes      |
 
 ## Security Settings
 
 ### HTTPS Configuration
-| Variable | Description | Default | Required |
-|----------|-------------|---------|----------|
-| `SECURE_SSL_REDIRECT` | Force HTTPS redirect | `1` | No |
-| `SESSION_COOKIE_SECURE` | Secure session cookies | `1` | No |
-| `CSRF_COOKIE_SECURE` | Secure CSRF cookies | `1` | No |
-| `CSRF_TRUSTED_ORIGINS` | Trusted origins for CSRF | None | Yes |
+
+| Variable                | Description              | Default | Required |
+| ----------------------- | ------------------------ | ------- | -------- |
+| `SECURE_SSL_REDIRECT`   | Force HTTPS redirect     | `1`     | No       |
+| `SESSION_COOKIE_SECURE` | Secure session cookies   | `1`     | No       |
+| `CSRF_COOKIE_SECURE`    | Secure CSRF cookies      | `1`     | No       |
+| `CSRF_TRUSTED_ORIGINS`  | Trusted origins for CSRF | None    | Yes      |
 
 ## Integration Settings
 
 ### Payment Processing
-| Variable | Description | Default | Required |
-|----------|-------------|---------|----------|
-| `PAYPAL_CLIENT_ID` | PayPal API client ID | None | No |
-| `PAYPAL_CLIENT_SECRET` | PayPal API secret | None | No |
+
+| Variable               | Description          | Default | Required |
+| ---------------------- | -------------------- | ------- | -------- |
+| `PAYPAL_CLIENT_ID`     | PayPal API client ID | None    | No       |
+| `PAYPAL_CLIENT_SECRET` | PayPal API secret    | None    | No       |
 
 ### Storage
-| Variable | Description | Default | Required |
-|----------|-------------|---------|----------|
-| `DROPBOX_OAUTH2_TOKEN` | Dropbox OAuth2 token | None | No |
+
+| Variable               | Description          | Default | Required |
+| ---------------------- | -------------------- | ------- | -------- |
+| `DROPBOX_OAUTH2_TOKEN` | Dropbox OAuth2 token | None    | No       |
 
 ## Example Configurations
 
 ### Development
+
 ```bash
 DEBUG=1
 SECRET_KEY=your-dev-secret-key
@@ -56,6 +62,7 @@ CSRF_TRUSTED_ORIGINS=http://localhost:8000
 ```
 
 ### Production
+
 ```bash
 DEBUG=0
 SECRET_KEY=your-production-secret-key
@@ -70,11 +77,13 @@ CSRF_TRUSTED_ORIGINS=https://your-domain.com
 ## Setting Up Environment Variables
 
 ### Local Development
+
 1. Copy `.env.example` to `.env`
 2. Generate a new secret key
 3. Update variables as needed
 
 ### Production Deployment
+
 1. Use your platform's secret management system
 2. Never commit production secrets to version control
 3. Regularly rotate sensitive credentials
@@ -82,21 +91,24 @@ CSRF_TRUSTED_ORIGINS=https://your-domain.com
 ## Best Practices
 
 1. **Security**
-   - Use strong, unique values for secrets
-   - Regularly rotate sensitive credentials
-   - Keep production secrets separate from development
+
+    - Use strong, unique values for secrets
+    - Regularly rotate sensitive credentials
+    - Keep production secrets separate from development
 
 2. **Organization**
-   - Group related variables together
-   - Use clear, descriptive names
-   - Document any custom variables
+
+    - Group related variables together
+    - Use clear, descriptive names
+    - Document any custom variables
 
 3. **Development**
-   - Use `.env.example` as a template
-   - Keep development values simple
-   - Document required variables
+
+    - Use `.env.example` as a template
+    - Keep development values simple
+    - Document required variables
 
 4. **Production**
-   - Use production-grade secret management
-   - Enable all security features
-   - Regularly audit configuration
+    - Use production-grade secret management
+    - Enable all security features
+    - Regularly audit configuration

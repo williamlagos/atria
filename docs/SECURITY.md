@@ -60,33 +60,35 @@ X_FRAME_OPTIONS = 'DENY'
 
 ### Connection Security
 
-- Use SSL/TLS for database connections
-- Use strong passwords
-- Limit database user permissions
-- Regular security updates
+-   Use SSL/TLS for database connections
+-   Use strong passwords
+-   Limit database user permissions
+-   Regular security updates
 
 ### Example Production Database URL
+
 ```
 DATABASE_URL=postgres://user:password@host:5432/dbname?sslmode=require
 ```
 
 ## File Upload Security
 
-- Validate file types
-- Set maximum file size limits
-- Store uploads in secure location
-- Use secure storage backends
+-   Validate file types
+-   Set maximum file size limits
+-   Store uploads in secure location
+-   Use secure storage backends
 
 ## Authentication Security
 
-- Password validation rules enforced
-- Session security settings
-- CSRF protection enabled
-- Secure cookie configuration
+-   Password validation rules enforced
+-   Session security settings
+-   CSRF protection enabled
+-   Secure cookie configuration
 
 ## Development vs Production
 
 ### Development Settings
+
 ```python
 DEBUG = True
 SECURE_SSL_REDIRECT = False
@@ -95,6 +97,7 @@ CSRF_COOKIE_SECURE = False
 ```
 
 ### Production Settings
+
 ```python
 DEBUG = False
 SECURE_SSL_REDIRECT = True
@@ -105,50 +108,56 @@ CSRF_COOKIE_SECURE = True
 ## Security Best Practices
 
 1. Regular Security Updates
-   - Keep Django up to date
-   - Monitor dependencies for vulnerabilities
-   - Regular system updates
+
+    - Keep Django up to date
+    - Monitor dependencies for vulnerabilities
+    - Regular system updates
 
 2. Access Control
-   - Implement proper authentication
-   - Use role-based access control
-   - Audit access logs
+
+    - Implement proper authentication
+    - Use role-based access control
+    - Audit access logs
 
 3. Data Protection
-   - Encrypt sensitive data
-   - Regular backups
-   - Secure data transmission
+
+    - Encrypt sensitive data
+    - Regular backups
+    - Secure data transmission
 
 4. Monitoring
-   - Enable error logging
-   - Monitor suspicious activity
-   - Regular security audits
+    - Enable error logging
+    - Monitor suspicious activity
+    - Regular security audits
 
 ## Deployment Checklist
 
 1. Environment Configuration
-   - [ ] Generate new SECRET_KEY
-   - [ ] Configure ALLOWED_HOSTS
-   - [ ] Set DEBUG=0
-   - [ ] Configure database credentials
+
+    - [ ] Generate new SECRET_KEY
+    - [ ] Configure ALLOWED_HOSTS
+    - [ ] Set DEBUG=0
+    - [ ] Configure database credentials
 
 2. Security Settings
-   - [ ] Enable HTTPS
-   - [ ] Configure security headers
-   - [ ] Set up CSRF protection
-   - [ ] Enable secure cookies
+
+    - [ ] Enable HTTPS
+    - [ ] Configure security headers
+    - [ ] Set up CSRF protection
+    - [ ] Enable secure cookies
 
 3. Server Configuration
-   - [ ] Configure firewall
-   - [ ] Set up SSL/TLS
-   - [ ] Configure backup system
-   - [ ] Set up monitoring
+
+    - [ ] Configure firewall
+    - [ ] Set up SSL/TLS
+    - [ ] Configure backup system
+    - [ ] Set up monitoring
 
 4. Application Security
-   - [ ] Run security checks
-   - [ ] Test error handling
-   - [ ] Validate file uploads
-   - [ ] Check authentication flow
+    - [ ] Run security checks
+    - [ ] Test error handling
+    - [ ] Validate file uploads
+    - [ ] Check authentication flow
 
 ## Emergency Response
 
@@ -163,6 +172,6 @@ In case of security incidents:
 
 ## Additional Resources
 
-- [Django Security Documentation](https://docs.djangoproject.com/en/stable/topics/security/)
-- [OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
-- [Django Deployment Checklist](https://docs.djangoproject.com/en/stable/howto/deployment/checklist/)
+-   [Django Security Documentation](https://docs.djangoproject.com/en/stable/topics/security/)
+-   [OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+-   [Django Deployment Checklist](https://docs.djangoproject.com/en/stable/howto/deployment/checklist/)

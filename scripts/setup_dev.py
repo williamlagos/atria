@@ -79,11 +79,25 @@ def setup_development_env():
     env_file = project_root / '.env'
     if not env_file.exists():
         print("\nCreating .env file...")
-        env_content = """DEBUG=1
-SECRET_KEY=development-secret-key
-DATABASE_URL=postgres://atria:development@localhost:5432/atria"""
+        import secrets
+        env_content = f"""# Django
+DEBUG=1
+SECRET_KEY={secrets.token_urlsafe(50)}
+ALLOWED_HOSTS=localhost,127.0.0.1
+DJANGO_SETTINGS_MODULE=atria.settings
+
+# Database
+DATABASE_URL=postgres://atria:development@localhost:5432/atria
+DB_PASSWORD=development
+
+# Security (Development)
+CORS_ALLOW_ALL_ORIGINS=1
+CSRF_TRUSTED_ORIGINS=http://localhost:8000
+SECURE_SSL_REDIRECT=0
+SESSION_COOKIE_SECURE=0
+CSRF_COOKIE_SECURE=0"""
         env_file.write_text(env_content)
-        print("✓ .env file created")
+        print("✓ .env file created with secure defaults")
 
     # Start development environment
     print("\nStarting development environment...")

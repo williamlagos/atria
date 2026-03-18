@@ -6,7 +6,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-            target: builder # For development, use the builder stage with all dependencies
+            target: dev # For development, use the dev stage with local submodule sources
         volumes:
             - .:/app
         environment:

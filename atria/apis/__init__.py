@@ -19,9 +19,5 @@
 #
 
 from .accounts import *
-from .baskets import *
-from .contents import *
 from .deliveries import *
-from .orders import *
-from .products import *
 from .rates import *

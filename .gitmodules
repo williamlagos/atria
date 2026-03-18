@@ -1,0 +1,8 @@
+[submodule "shipping"]
+	path = shipping
+	url = https://github.com/williamlagos/django-ship.git
+	branch = master
+[submodule "socialize"]
+	path = socialize
+	url = https://github.com/williamlagos/django-socialize.git
+	branch = master

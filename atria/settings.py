@@ -49,17 +49,9 @@ SECURE_HSTS_PRELOAD = True
 # Application definition
 
 INSTALLED_APPS = [
-    # Production mode, get modules from pip
     'corsheaders',
-    # 'emporio',
-    # 'plethora',
-    # 'shipping',
-    # 'socialize',
-    # Development mode, inject modules directly
     'socialize.socialize',
     'shipping.shipping',
-    'plethora.plethora',
-    'emporio.emporio',
     # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

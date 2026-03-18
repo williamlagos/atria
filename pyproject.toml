@@ -46,11 +46,9 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    # Local development packages
-    "django-shipping @ file:///${PROJECT_ROOT}/shipping",
+    # Local development packages (git submodules for live development)
+    "django-ship @ file:///${PROJECT_ROOT}/shipping",
     "django-socialize @ file:///${PROJECT_ROOT}/socialize",
-    "django-emporio @ file:///${PROJECT_ROOT}/emporio",
-    "django-plethora @ file:///${PROJECT_ROOT}/plethora",
     # Development tools
     "black>=23.7.0",
     "isort>=5.12.0",
@@ -74,17 +72,15 @@ dev = [
 ]
 
 prod = [
-    "django-shipping @ git+ssh://git@github.com/williamlagos/django-shipping.git@master",
-    "django-socialize @ git+ssh://git@github.com/williamlagos/django-socialize.git@master",
-    "django-emporio @ git+ssh://git@github.com/williamlagos/django-emporio.git@master",
-    "django-plethora @ git+ssh://git@github.com/williamlagos/django-plethora.git@master",
+    "django-ship @ git+https://github.com/williamlagos/django-ship.git@master",
+    "django-socialize @ git+https://github.com/williamlagos/django-socialize.git@master",
 ]
 
 [project.urls]
-Homepage = "https://github.com/williamlagos/django-emporio"
-Documentation = "https://github.com/williamlagos/django-emporio/wiki"
-Repository = "https://github.com/williamlagos/django-emporio.git"
-Issues = "https://github.com/williamlagos/django-emporio/issues"
+Homepage = "https://github.com/williamlagos/atria"
+Documentation = "https://github.com/williamlagos/atria/wiki"
+Repository = "https://github.com/williamlagos/atria.git"
+Issues = "https://github.com/williamlagos/atria/issues"
 
 [build-system]
 requires = ["hatchling"]

@@ -21,14 +21,20 @@ WORKDIR /app
 # Copy project files
 COPY pyproject.toml README.md ./
 COPY atria ./atria
-COPY emporio ./emporio
-COPY plethora ./plethora
 COPY shipping ./shipping
 COPY socialize ./socialize
 COPY manage.py ./
 
 # Install production dependencies only
 RUN uv pip install --system -e ".[prod]"
+
+# Development stage - uses local submodule sources for live development
+FROM builder AS dev
+
+ENV PROJECT_ROOT=/app
+
+# Install dev dependencies (uses local file:// references to submodules)
+RUN uv pip install --system -e ".[dev]"
 
 # Final stage
 FROM python:3.13-slim

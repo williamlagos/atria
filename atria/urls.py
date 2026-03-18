@@ -17,12 +17,6 @@ from django.views import View
 from django.http import JsonResponse
 from django.urls import include, path
 
-# from socialize.socialize.urls import urlpatterns as socialize_patterns
-# from shipping.shipping.urls import urlpatterns as shipping_patterns
-# from plethora.plethora.urls import urlpatterns as plethora_patterns
-# from emporio.emporio.urls import urlpatterns as emporio_patterns
-# from feedly.feedly.urls import urlpatterns as feedly_patterns
-
 from .apis import *
 
 
@@ -36,15 +30,6 @@ urlpatterns = [
     path('v1/', include([
         path('accounts/', include(AccountResource.urls())),
         path('deliveries/', include(DeliveryResource.urls())),
-        path('products/', include(ProductResource.urls())),
-        path('contents/', include(ContentResource.urls())),
-        path('baskets/', include(BasketResource.urls())),
-        path('orders/', include(OrderResource.urls())),
         path('rates/', include(RateResource.urls())),
     ]))
-    # path('socialize/', include(socialize_patterns)),
-    # path('shipping/', include(shipping_patterns)),
-    # path('plethora/', include(plethora_patterns)),
-    # path('emporio/', include(emporio_patterns)),
-    # path('feedly/', include(feedly_patterns)),
 ]

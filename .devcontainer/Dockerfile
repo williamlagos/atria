@@ -5,7 +5,6 @@ FROM williamlagos/eos:latest
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PYTHONBREAKPOINT=ipdb.set_trace \
-    UV_VERSION=0.1.13 \
     DJANGO_SETTINGS_MODULE=atria.settings \
     PATH="/home/vscode/.local/bin:${PATH}"
 
@@ -19,8 +18,7 @@ RUN pacman --noconfirm -Syu \
     && pacman -Scc --noconfirm
 
 # Install uv
-RUN curl -LsSf https://github.com/astral-sh/uv/releases/download/${UV_VERSION}/uv-linux-amd64.tar.gz | \
-    tar zxf - -C /usr/local/bin
+COPY --from=ghcr.io/astral-sh/uv:0.10.10 /uv /usr/local/bin/uv
 
 # Create non-root user
 RUN useradd -m -s /bin/bash vscode \

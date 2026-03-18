@@ -36,8 +36,9 @@ jobs:
                   cache: 'pip'
 
             - name: Install uv
-              run: |
-                  curl -LsSf https://github.com/astral-sh/uv/releases/download/0.1.13/uv-linux-amd64.tar.gz | tar zxf - -C /usr/local/bin
+              uses: astral-sh/setup-uv@v3
+              with:
+                  version: "0.10.10"
 
             - name: Install dependencies
               run: |

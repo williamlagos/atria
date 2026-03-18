@@ -1,19 +1,18 @@
 # Use Python 3.13 slim image as base
 FROM python:3.13-slim AS builder
 
+# Copy uv from the official image
+COPY --from=ghcr.io/astral-sh/uv:0.10.10 /uv /usr/local/bin/uv
+
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    UV_VERSION=0.1.13
+    PYTHONUNBUFFERED=1
 
-# Install system dependencies and uv
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    curl \
     git \
-    && rm -rf /var/lib/apt/lists/* \
-    && curl -LsSf https://github.com/astral-sh/uv/releases/download/${UV_VERSION}/uv-linux-amd64.tar.gz | \
-    tar zxf - -C /usr/local/bin
+    && rm -rf /var/lib/apt/lists/*
 
 # Create and set working directory
 WORKDIR /app

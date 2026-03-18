@@ -68,7 +68,7 @@ dev = [
     "ipython>=8.14.0",
     "pre-commit>=3.3.3",
     "bandit>=1.7.5",
-    "safety>=2.3.5",
+    "safety>=2.3.5,<3.0",
 ]
 
 prod = [

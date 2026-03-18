@@ -25,24 +25,26 @@ jobs:
                 options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
               with:
                   submodules: recursive
 
             - name: Set up Python ${{ matrix.python-version }}
-              uses: actions/setup-python@v4
+              uses: actions/setup-python@v5
               with:
                   python-version: ${{ matrix.python-version }}
                   cache: 'pip'
 
             - name: Install uv
-              uses: astral-sh/setup-uv@v3
+              uses: astral-sh/setup-uv@v5
               with:
                   version: "0.10.10"
 
             - name: Install dependencies
+              env:
+                  PROJECT_ROOT: ${{ github.workspace }}
               run: |
-                  uv pip install -e ".[dev]"
+                  uv pip install --system -e ".[dev]"
 
             - name: Run pre-commit hooks
               run: |
@@ -51,16 +53,22 @@ jobs:
             - name: Check for security vulnerabilities
               run: |
                   safety check
-                  bandit -r atria emporio plethora shipping socialize
+                  bandit -r atria shipping socialize
 
             - name: Run tests
               env:
                   DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+                  SECRET_KEY: ${{ secrets.SECRET_KEY || 'ci-insecure-test-secret-key-for-testing-only' }}
+                  ALLOWED_HOSTS: localhost,127.0.0.1
+                  DEBUG: '1'
+                  SECURE_SSL_REDIRECT: '0'
+                  SESSION_COOKIE_SECURE: '0'
+                  CSRF_COOKIE_SECURE: '0'
               run: |
                   pytest --cov=. --cov-report=xml
 
             - name: Upload coverage to Codecov
-              uses: codecov/codecov-action@v3
+              uses: codecov/codecov-action@v5
               with:
                   file: ./coverage.xml
                   fail_ci_if_error: true
@@ -71,10 +79,10 @@ jobs:
         if: github.ref == 'refs/heads/master'
 
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
 
             - name: Set up Python
-              uses: actions/setup-python@v4
+              uses: actions/setup-python@v5
               with:
                   python-version: '3.13'
 

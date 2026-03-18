@@ -3,7 +3,7 @@ name = "atria"
 version = "0.1.0"
 description = "Django-based e-commerce and content management system"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.11"
 license = {text = "MIT"}
 keywords = ["django", "ecommerce", "cms", "web"]
 authors = [
@@ -20,9 +20,9 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Internet :: WWW/HTTP",
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
 ]
@@ -94,7 +94,7 @@ packages = ["atria"]
 
 [tool.black]
 line-length = 88
-target-version = ["py37", "py38", "py39"]
+target-version = ["py311", "py312", "py313"]
 include = '\.pyi?$'
 
 [tool.isort]
@@ -103,7 +103,7 @@ multi_line_output = 3
 line_length = 88
 
 [tool.mypy]
-python_version = "3.7"
+python_version = "3.11"
 warn_return_any = true
 warn_unused_configs = true
 ignore_missing_imports = true

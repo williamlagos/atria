@@ -48,7 +48,7 @@ dependencies = [
 dev = [
     # Local development packages (git submodules for live development)
     "django-ship @ file:///${PROJECT_ROOT}/shipping",
-    "django-socialize @ file:///${PROJECT_ROOT}/socialize",
+    "socialize @ file:///${PROJECT_ROOT}/socialize",
     # Development tools
     "black>=23.7.0",
     "isort>=5.12.0",
@@ -68,12 +68,11 @@ dev = [
     "ipython>=8.14.0",
     "pre-commit>=3.3.3",
     "bandit>=1.7.5",
-    "safety>=2.3.5,<3.0",
 ]
 
 prod = [
     "django-ship @ git+https://github.com/williamlagos/django-ship.git@master",
-    "django-socialize @ git+https://github.com/williamlagos/django-socialize.git@master",
+    "socialize @ git+https://github.com/williamlagos/django-socialize.git@master",
 ]
 
 [project.urls]

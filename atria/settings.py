@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "socialize",
     "shipping",
+    "feedly",
     # 'django.contrib.admin',
     "django.contrib.auth",
     "django.contrib.contenttypes",

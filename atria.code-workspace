@@ -1,0 +1,25 @@
+{
+    "folders": [
+        {
+            "name": "Atria (Core App)",
+            "path": "."
+        },
+        {
+            "name": "django-ship (Marketplace Lib)",
+            "path": "../django-ship"
+        },
+        {
+            "name": "django-socialize (ActivityPub Lib)",
+            "path": "../django-socialize"
+        }
+    ],
+    "settings": {
+        "python.defaultInterpreterPath": "${workspaceFolder:Atria (Core App)}/.venv/bin/python",
+        "python.analysis.extraPaths": [
+            "${workspaceFolder:django-ship (Marketplace Lib)}",
+            "${workspaceFolder:django-socialize (ActivityPub Lib)}/src"
+        ],
+        "editor.formatOnSave": true
+    }
+}
+

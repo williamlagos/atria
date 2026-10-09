@@ -69,7 +69,21 @@ def setup_development_env():
     # Install development dependencies
     print("\nInstalling development dependencies...")
     run_command("uv pip install -e '.[dev]'")
-    print("✓ Dependencies installed")
+    print("✓ Core dependencies installed")
+
+    # Detect and link local autonomous packages in editable mode if available
+    local_packages = [
+        ("django-ship", ["../django-ship", "./shipping"]),
+        ("socialize", ["../django-socialize", "./socialize"]),
+    ]
+    for pkg_name, candidate_paths in local_packages:
+        for rel_path in candidate_paths:
+            pkg_path = (project_root / rel_path).resolve()
+            if pkg_path.exists() and (pkg_path / "pyproject.toml").exists():
+                print(
+                    f"✓ Found local checkout for {pkg_name} at {rel_path}, linking in editable mode...")
+                run_command(f"uv pip install -e '{pkg_path}'")
+                break
 
     # Install pre-commit hooks
     print("\nInstalling pre-commit hooks...")

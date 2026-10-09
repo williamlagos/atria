@@ -47,13 +47,12 @@ dependencies = [
     "redis>=5.0.0",
     "psycopg2-binary>=2.9.9",
     "django-csp>=3.7",
+    "django-ship @ git+https://github.com/williamlagos/django-ship.git@master",
+    "socialize @ git+https://github.com/williamlagos/django-socialize.git@master",
 ]
 
 [project.optional-dependencies]
 dev = [
-    # Local development packages (git submodules for live development)
-    "django-ship @ file:///${PROJECT_ROOT}/shipping",
-    "socialize @ file:///${PROJECT_ROOT}/socialize",
     # Development tools
     "black>=23.7.0",
     "isort>=5.12.0",
@@ -73,11 +72,6 @@ dev = [
     "ipython>=8.14.0",
     "pre-commit>=3.3.3",
     "bandit>=1.7.5",
-]
-
-prod = [
-    "django-ship @ git+https://github.com/williamlagos/django-ship.git@master",
-    "socialize @ git+https://github.com/williamlagos/django-socialize.git@master",
 ]
 
 [project.urls]

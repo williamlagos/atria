@@ -25,7 +25,7 @@ Atria is an **open-source decentralized social marketplace** that merges **socia
 1. Clone the repository:
 
     ```bash
-    git clone --recursive https://github.com/yourusername/atria.git
+    git clone https://github.com/yourusername/atria.git
     cd atria
     ```
 
@@ -39,6 +39,8 @@ Atria is an **open-source decentralized social marketplace** that merges **socia
     # Install development dependencies using uv
     ./scripts/setup_dev.py
     ```
+
+    > **Note for Library Contributors**: If you are working on the companion packages (`django-ship` or `django-socialize`), clone them alongside Atria as sibling directories (`../django-ship`, `../django-socialize`). `./scripts/setup_dev.py` will automatically detect and link them in editable mode. You can open `atria.code-workspace` in VS Code to work across all projects simultaneously.
 
 3. Configure your environment:
 

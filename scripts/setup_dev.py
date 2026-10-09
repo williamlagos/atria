@@ -78,6 +78,7 @@ def setup_development_env():
     local_packages = [
         ("django-ship", ["../shipping", "../django-ship", "./shipping"]),
         ("socialize", ["../socialize", "../django-socialize", "./socialize"]),
+        ("django-feedly", ["../feedly", "../django-feedly", "./feedly"]),
     ]
     for pkg_name, candidate_paths in local_packages:
         for rel_path in candidate_paths:

@@ -47,6 +47,8 @@ dependencies = [
     "redis>=5.0.0",
     "psycopg2-binary>=2.9.9",
     "django-csp>=3.7",
+    "stripe>=7.0.0",
+    "web3>=6.0.0",
     "django-ship @ git+https://github.com/williamlagos/django-ship.git@master",
     "socialize @ git+https://github.com/williamlagos/django-socialize.git@master",
     "django-feedly @ git+https://github.com/williamlagos/django-feedly.git@master",

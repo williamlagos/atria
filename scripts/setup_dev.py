@@ -80,8 +80,7 @@ def setup_development_env():
         for rel_path in candidate_paths:
             pkg_path = (project_root / rel_path).resolve()
             if pkg_path.exists() and (pkg_path / "pyproject.toml").exists():
-                print(
-                    f"✓ Found local checkout for {pkg_name} at {rel_path}, linking in editable mode...")
+                print(f"✓ Found local checkout for {pkg_name} at {rel_path}, linking in editable mode...")
                 run_command(f"uv pip install -e '{pkg_path}'")
                 break
 

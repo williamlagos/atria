@@ -12,6 +12,7 @@ This document describes all environment variables used in the Atria platform.
 | `SECRET_KEY`             | Django secret key                     | None             | Yes      |
 | `ALLOWED_HOSTS`          | Comma-separated list of allowed hosts | None             | Yes      |
 | `DJANGO_SETTINGS_MODULE` | Python path to settings module        | `atria.settings` | Yes      |
+| `SITE_DOMAIN`            | Fully qualified domain for federation | `localhost:8000` | No       |
 
 ### Database Configuration
 
@@ -19,6 +20,13 @@ This document describes all environment variables used in the Atria platform.
 | -------------- | ----------------------- | ------- | -------- |
 | `DATABASE_URL` | Database connection URL | None    | Yes      |
 | `DB_PASSWORD`  | Database password       | None    | Yes      |
+
+### Worker & Background Tasks (Celery & Redis)
+
+| Variable                 | Description               | Default                    | Required |
+| ------------------------ | ------------------------- | -------------------------- | -------- |
+| `CELERY_BROKER_URL`      | Redis broker URL for tasks| `redis://localhost:6379/0` | No       |
+| `CELERY_RESULT_BACKEND`   | Redis result backend URL  | `redis://localhost:6379/0` | No       |
 
 ## Security Settings
 

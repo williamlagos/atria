@@ -25,7 +25,7 @@ Atria is an **open-source decentralized social marketplace** that merges **socia
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/atria.git
+    git clone --recursive https://github.com/yourusername/atria.git
     cd atria
     ```
 
@@ -68,7 +68,13 @@ The project uses environment variables for configuration. Key variables include:
 -   `SECRET_KEY`: Django secret key for cryptographic operations
 -   `ALLOWED_HOSTS`: Comma-separated list of allowed hosts
 -   `DEBUG`: Set to 0 in production, 1 for development
--   `DATABASE_URL`: Database connection string
+-   `DATABASE_URL`: Database connection string (PostgreSQL in production/Docker, SQLite for offline dev)
+
+### Federation & Worker Settings
+
+-   `SITE_DOMAIN`: Fully qualified domain used in WebFinger and ActivityPub actor IDs (e.g. `example.com`)
+-   `CELERY_BROKER_URL`: Redis broker URL for asynchronous federation and tasks (default: `redis://localhost:6379/0`)
+-   `CELERY_RESULT_BACKEND`: Redis backend for task results (default: `redis://localhost:6379/0`)
 
 ### Security Settings
 
@@ -82,20 +88,6 @@ The project uses environment variables for configuration. Key variables include:
 -   `PAYPAL_CLIENT_ID`: PayPal integration credentials
 -   `DROPBOX_OAUTH2_TOKEN`: Dropbox storage integration
 -   Additional settings as needed for your deployment
-
-2. Install dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
-3. Set up environment variables:
-    ```bash
-    cp .env.example .env
-    ```
-4. Run migrations and start the server:
-    ```bash
-    python manage.py migrate
-    python manage.py runserver
-    ```
 
 ## Roadmap
 

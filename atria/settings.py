@@ -20,6 +20,10 @@ env = environ.Env(
     SECURE_SSL_REDIRECT=(bool, True),
     SESSION_COOKIE_SECURE=(bool, True),
     CSRF_COOKIE_SECURE=(bool, True),
+    DATABASE_URL=(str, f'sqlite:///{BASE_DIR / "db.sqlite3"}'),
+    SITE_DOMAIN=(str, 'localhost:8000'),
+    CELERY_BROKER_URL=(str, 'redis://localhost:6379/0'),
+    CELERY_RESULT_BACKEND=(str, 'redis://localhost:6379/0'),
 )
 
 # Read .env file
@@ -30,6 +34,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 CORS_ALLOW_ALL_ORIGINS = env('CORS_ALLOW_ALL_ORIGINS')
+SITE_DOMAIN = env('SITE_DOMAIN')
 
 # Security middleware settings
 CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS')
@@ -44,6 +49,12 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_HSTS_SECONDS = 31536000  # 1 year
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
+
+# Content Security Policy (CSP)
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
+CSP_SCRIPT_SRC = ("'self'",)
+CSP_IMG_SRC = ("'self'", "data:", "https:")
 
 
 # Application definition
@@ -63,6 +74,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'csp.middleware.CSPMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -96,10 +108,10 @@ WSGI_APPLICATION = 'atria.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': env.db(
+        'DATABASE_URL',
+        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+    )
 }
 
 
@@ -151,3 +163,11 @@ LOCALE_DATE = ("Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
 # DROPBOX_OAUTH2_TOKEN = ''
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+# Celery Configuration
+CELERY_BROKER_URL = env('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE

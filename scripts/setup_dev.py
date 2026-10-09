@@ -47,7 +47,7 @@ def install_uv():
     elif machine == 'aarch64':
         machine = 'arm64'
 
-    uv_version = "0.1.13"
+    uv_version = "0.10.10"
     platform_name = f"{system}-{machine}"
     url = f"https://github.com/astral-sh/uv/releases/download/{uv_version}/uv-{platform_name}.tar.gz"
 
@@ -64,6 +64,7 @@ def setup_development_env():
     """Set up the development environment"""
     project_root = Path(__file__).parent.parent
     os.chdir(project_root)
+    os.environ["PROJECT_ROOT"] = str(project_root)
 
     # Install development dependencies
     print("\nInstalling development dependencies...")
@@ -85,10 +86,15 @@ DEBUG=1
 SECRET_KEY={secrets.token_urlsafe(50)}
 ALLOWED_HOSTS=localhost,127.0.0.1
 DJANGO_SETTINGS_MODULE=atria.settings
+SITE_DOMAIN=localhost:8000
 
 # Database
 DATABASE_URL=postgres://atria:development@localhost:5432/atria
 DB_PASSWORD=development
+
+# Background Workers (Celery & Redis)
+CELERY_BROKER_URL=redis://localhost:6379/0
+CELERY_RESULT_BACKEND=redis://localhost:6379/0
 
 # Security (Development)
 CORS_ALLOW_ALL_ORIGINS=1
@@ -101,8 +107,8 @@ CSRF_COOKIE_SECURE=0"""
 
     # Start development environment
     print("\nStarting development environment...")
-    run_command("docker-compose up -d db")
-    print("✓ Database container started")
+    run_command("docker-compose up -d db redis")
+    print("✓ Database and Redis containers started")
 
     # Wait for database to be ready
     print("\nWaiting for database to be ready...")

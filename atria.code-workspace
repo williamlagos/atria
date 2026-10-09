@@ -5,21 +5,20 @@
             "path": "."
         },
         {
-            "name": "django-ship (Marketplace Lib)",
-            "path": "../django-ship"
+            "name": "shipping (Marketplace Lib)",
+            "path": "../shipping"
         },
         {
-            "name": "django-socialize (ActivityPub Lib)",
-            "path": "../django-socialize"
+            "name": "socialize (ActivityPub Lib)",
+            "path": "../socialize"
         }
     ],
     "settings": {
         "python.defaultInterpreterPath": "${workspaceFolder:Atria (Core App)}/.venv/bin/python",
         "python.analysis.extraPaths": [
-            "${workspaceFolder:django-ship (Marketplace Lib)}",
-            "${workspaceFolder:django-socialize (ActivityPub Lib)}/src"
+            "${workspaceFolder:shipping (Marketplace Lib)}",
+            "${workspaceFolder:socialize (ActivityPub Lib)}/src"
         ],
         "editor.formatOnSave": true
     }
 }
-

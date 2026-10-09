@@ -38,4 +38,4 @@ RUN uv pip install --user \
     debugpy
 
 # The command will be overridden by devcontainer.json
-CMD ["sleep", "infinity"] 
+CMD ["sleep", "infinity"]

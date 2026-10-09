@@ -17,12 +17,12 @@ def run_command(cmd, cwd=None):
         stderr=subprocess.STDOUT,
         text=True,
         shell=True,
-        cwd=cwd
+        cwd=cwd,
     )
 
     while True:
         output = process.stdout.readline()
-        if output == '' and process.poll() is not None:
+        if output == "" and process.poll() is not None:
             break
         if output:
             print(output.strip())
@@ -33,7 +33,7 @@ def run_command(cmd, cwd=None):
 
 def install_uv():
     """Install uv if not already installed"""
-    if subprocess.run(['which', 'uv'], capture_output=True).returncode == 0:
+    if subprocess.run(["which", "uv"], capture_output=True).returncode == 0:
         print("✓ uv already installed")
         return
 
@@ -42,14 +42,17 @@ def install_uv():
     # Determine platform
     system = platform.system().lower()
     machine = platform.machine()
-    if machine == 'x86_64':
-        machine = 'amd64'
-    elif machine == 'aarch64':
-        machine = 'arm64'
+    if machine == "x86_64":
+        machine = "amd64"
+    elif machine == "aarch64":
+        machine = "arm64"
 
     uv_version = "0.10.10"
     platform_name = f"{system}-{machine}"
-    url = f"https://github.com/astral-sh/uv/releases/download/{uv_version}/uv-{platform_name}.tar.gz"
+    url = (
+        f"https://github.com/astral-sh/uv/releases/download/"
+        f"{uv_version}/uv-{platform_name}.tar.gz"
+    )
 
     # Download and extract uv
     tmp_file = "/tmp/uv.tar.gz"
@@ -73,14 +76,20 @@ def setup_development_env():
 
     # Detect and link local autonomous packages in editable mode if available
     local_packages = [
-        ("django-ship", ["../django-ship", "./shipping"]),
-        ("socialize", ["../django-socialize", "./socialize"]),
+        ("django-ship", ["../shipping", "../django-ship", "./shipping"]),
+        ("socialize", ["../socialize", "../django-socialize", "./socialize"]),
     ]
     for pkg_name, candidate_paths in local_packages:
         for rel_path in candidate_paths:
             pkg_path = (project_root / rel_path).resolve()
-            if pkg_path.exists() and (pkg_path / "pyproject.toml").exists():
-                print(f"✓ Found local checkout for {pkg_name} at {rel_path}, linking in editable mode...")
+            has_build = (pkg_path / "pyproject.toml").exists() or (
+                pkg_path / "setup.py"
+            ).exists()
+            if pkg_path.exists() and has_build:
+                print(
+                    f"✓ Found local checkout for {pkg_name} at {rel_path}, "
+                    "linking in editable mode..."
+                )
                 run_command(f"uv pip install -e '{pkg_path}'")
                 break
 
@@ -90,10 +99,11 @@ def setup_development_env():
     print("✓ Pre-commit hooks installed")
 
     # Create .env file if it doesn't exist
-    env_file = project_root / '.env'
+    env_file = project_root / ".env"
     if not env_file.exists():
         print("\nCreating .env file...")
         import secrets
+
         env_content = f"""# Django
 DEBUG=1
 SECRET_KEY={secrets.token_urlsafe(50)}
@@ -163,5 +173,5 @@ def main():
         sys.exit(1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

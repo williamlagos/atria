@@ -125,3 +125,93 @@ class ActivityPubFederationEndpointsTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 202)
         mock_task.assert_called_once()
+
+
+class CommerceAndPaymentsEndpointsTestCase(TestCase):
+    def setUp(self):
+        from decimal import Decimal
+
+        from shipping.models import Order, Product
+
+        self.client = Client()
+        self.creator = User.objects.create_user(username="creator_carol")
+        self.fan = User.objects.create_user(username="fan_dave")
+        self.product = Product.objects.create(
+            name="Digital Course",
+            slug="digital-course",
+            price=Decimal("49.99"),
+            sku="DC-001",
+            creator=self.creator,
+        )
+        self.order = Order.objects.create(user=self.fan, total=Decimal("49.99"))
+
+    def test_siwe_nonce_flow(self):
+        address = "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+        response = self.client.get(f"/shop/web3/siwe/nonce/?address={address}")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data["address"], address)
+        self.assertIn("nonce", data)
+
+    def test_creator_tiers_and_tip_endpoints(self):
+        # Create a tier
+        self.client.force_login(self.creator)
+        tier_payload = {
+            "name": "Supporter",
+            "price": "5.00",
+            "currency": "USD",
+            "perks": ["Badge", "Shoutout"],
+        }
+        res_tier = self.client.post(
+            f"/shop/creators/{self.creator.pk}/tiers/",
+            data=json.dumps(tier_payload),
+            content_type="application/json",
+        )
+        self.assertEqual(res_tier.status_code, 201)
+
+        # Send a tip
+        tip_payload = {
+            "amount": "15.00",
+            "currency": "USD",
+            "payment_rail": "stripe",
+            "message": "Awesome work!",
+        }
+        res_tip = self.client.post(
+            f"/shop/creators/{self.creator.pk}/tip/",
+            data=json.dumps(tip_payload),
+            content_type="application/json",
+        )
+        self.assertEqual(res_tip.status_code, 201)
+        self.assertEqual(res_tip.json()["amount"], "15.00")
+
+    @patch("shipping.payments.StripeService.create_checkout_session")
+    def test_stripe_checkout_endpoint(self, mock_checkout):
+        mock_checkout.return_value = {
+            "session_id": "cs_mock_123",
+            "url": "https://checkout.stripe.com/pay/cs_mock_123",
+        }
+        self.client.force_login(self.fan)
+        payload = {"order_id": self.order.pk}
+        response = self.client.post(
+            "/shop/payments/stripe/checkout/",
+            data=json.dumps(payload),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["session_id"], "cs_mock_123")
+
+    @patch("shipping.payments.PayPalV2Service.create_order")
+    def test_paypal_create_order_endpoint(self, mock_paypal):
+        mock_paypal.return_value = {
+            "id": "PAYPAL-ORDER-123",
+            "status": "CREATED",
+        }
+        self.client.force_login(self.fan)
+        payload = {"order_id": self.order.pk}
+        response = self.client.post(
+            "/shop/payments/paypal/create-order/",
+            data=json.dumps(payload),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["id"], "PAYPAL-ORDER-123")

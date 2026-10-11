@@ -3,6 +3,8 @@ from unittest.mock import patch
 
 from django.contrib.auth.models import User
 from django.test import Client, TestCase
+from feedly.ai import GeminiEmbeddingService
+from feedly.models import Page
 from socialize.services import ActorService
 
 
@@ -215,3 +217,93 @@ class CommerceAndPaymentsEndpointsTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["id"], "PAYPAL-ORDER-123")
+
+
+class AIFeedAndDiscoveryEndpointsTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="ai_researcher", email="ai@atria.local", password="password123"
+        )
+        self.page1 = Page.objects.create(
+            name="!#Decentralized AI",
+            content="Federated models and local edge inference techniques.",
+            user=self.user,
+        )
+        self.page2 = Page.objects.create(
+            name="!#Urban Gardening",
+            content="Hydroponics and balcony vegetable gardening tips.",
+            user=self.user,
+        )
+        embedding_service = GeminiEmbeddingService()
+        embedding_service.embed_object(self.page1)
+        embedding_service.embed_object(self.page2)
+
+    def test_chronological_and_trending_feed_endpoints(self):
+        res_chrono = self.client.get("/feeds/chronological/")
+        self.assertEqual(res_chrono.status_code, 200)
+        data_chrono = res_chrono.json()
+        self.assertEqual(data_chrono["strategy"], "chronological")
+        self.assertGreaterEqual(data_chrono["count"], 2)
+
+        res_trending = self.client.get("/feeds/trending/")
+        self.assertEqual(res_trending.status_code, 200)
+        data_trending = res_trending.json()
+        self.assertEqual(data_trending["strategy"], "trending")
+
+    def test_semantic_search_endpoint(self):
+        payload = {"query": "Machine learning and AI models", "top_k": 3}
+        res = self.client.post(
+            "/feeds/search/",
+            data=json.dumps(payload),
+            content_type="application/json",
+        )
+        self.assertEqual(res.status_code, 200)
+        data = res.json()
+        self.assertIn("results", data)
+        self.assertGreaterEqual(len(data["results"]), 1)
+        top_match = data["results"][0]
+        self.assertEqual(top_match["item"]["name"], "Decentralized AI")
+
+    def test_content_moderation_endpoint(self):
+        # Safe text
+        safe_payload = {"text": "Great updates on decentralized networks!"}
+        res_safe = self.client.post(
+            "/feeds/moderate/",
+            data=json.dumps(safe_payload),
+            content_type="application/json",
+        )
+        self.assertEqual(res_safe.status_code, 200)
+        self.assertEqual(res_safe.json()["status"], "approved")
+
+        # Spam/scam text
+        spam_payload = {
+            "text": "Claim your airdrop at http://scam.xyz double your bitcoin"
+        }
+        res_spam = self.client.post(
+            "/feeds/moderate/",
+            data=json.dumps(spam_payload),
+            content_type="application/json",
+        )
+        self.assertEqual(res_spam.status_code, 200)
+        self.assertIn(res_spam.json()["status"], ["flagged", "rejected"])
+
+    def test_personalized_feed_and_interests_endpoint(self):
+        self.client.force_login(self.user)
+        # Update user topics
+        interest_payload = {"topics": ["Artificial Intelligence", "Neural Networks"]}
+        res_interest = self.client.post(
+            "/feeds/interests/",
+            data=json.dumps(interest_payload),
+            content_type="application/json",
+        )
+        self.assertEqual(res_interest.status_code, 200)
+        self.assertTrue(res_interest.json()["has_vector"])
+
+        # Fetch personalized feed
+        res_feed = self.client.get("/feeds/personalized/")
+        self.assertEqual(res_feed.status_code, 200)
+        data_feed = res_feed.json()
+        self.assertEqual(data_feed["strategy"], "personalized")
+        self.assertGreaterEqual(len(data_feed["feed"]), 2)
+        # The AI page should be ranked first due to semantic topic affinity
+        self.assertEqual(data_feed["feed"][0]["item"]["name"], "Decentralized AI")

@@ -24,4 +24,6 @@ urlpatterns = [
     path("", include("socialize.urls")),
     # E-commerce marketplace (Products, Cart, Orders, Deliveries)
     path("shop/", include("shipping.urls")),
+    # AI Discovery, feeds, semantic search, and content moderation
+    path("", include("feedly.urls")),
 ]

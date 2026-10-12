@@ -1,6 +1,8 @@
 from django.conf import settings
 from ninja import NinjaAPI, Schema
 
+from .qa.router import qa_router
+
 api = NinjaAPI(
     title="Atria API",
     version="1.0.0",
@@ -41,3 +43,7 @@ def system_info(request):
         "federation_protocol": "ActivityPub",
         "site_domain": getattr(settings, "SITE_DOMAIN", "localhost:8000"),
     }
+
+
+# Register QA knowledge economy router
+api.add_router("/qa", qa_router, tags=["qa"])

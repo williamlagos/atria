@@ -26,4 +26,6 @@ urlpatterns = [
     path("shop/", include("shipping.urls")),
     # AI Discovery, feeds, semantic search, and content moderation
     path("", include("feedly.urls")),
+    # Social Q&A & Knowledge Economy federation
+    path("qa/", include("atria.qa.urls")),
 ]

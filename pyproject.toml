@@ -110,6 +110,10 @@ warn_return_any = true
 warn_unused_configs = true
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+module = "atria.qa.*"
+ignore_errors = true
+
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "atria.settings"
 python_files = ["tests.py", "test_*.py", "*_tests.py"]

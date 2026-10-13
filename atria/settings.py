@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "socialize",
     "shipping",
     "feedly",
+    "atria.qa",
     # 'django.contrib.admin',
     "django.contrib.auth",
     "django.contrib.contenttypes",

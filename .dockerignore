@@ -22,4 +22,10 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
-README.md
+.venv
+.pytest_cache
+.coverage
+htmlcov
+dist
+build
+*.egg-info

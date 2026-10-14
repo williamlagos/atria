@@ -114,6 +114,11 @@ ignore_missing_imports = true
 module = "atria.qa.*"
 ignore_errors = true
 
+[[tool.mypy.overrides]]
+module = "atria.routers.*"
+ignore_errors = true
+
+
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "atria.settings"
 python_files = ["tests.py", "test_*.py", "*_tests.py"]

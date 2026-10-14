@@ -51,7 +51,7 @@ dependencies = [
     "web3>=6.0.0",
     "google-genai>=2.25.0",
     "django-ship @ git+https://github.com/williamlagos/django-ship.git@master",
-    "socialize @ git+https://github.com/williamlagos/django-socialize.git@master",
+    "django-socialize @ git+https://github.com/williamlagos/django-socialize.git@master",
     "django-feedly @ git+https://github.com/williamlagos/django-feedly.git@master",
 ]
 

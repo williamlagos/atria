@@ -123,7 +123,9 @@ ignore_errors = true
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "atria.settings"
 python_files = ["tests.py", "test_*.py", "*_tests.py"]
-addopts = "--doctest-modules --cov=. --cov-report=term-missing"
+testpaths = ["atria"]
+norecursedirs = [".*", "deploy", "build", "dist", "node_modules", "staticfiles", "scripts"]
+addopts = "--doctest-modules --cov=atria --cov-report=term-missing"
 filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore::UserWarning",

@@ -1,0 +1,77 @@
+steps:
+  # ----------------------------------------------------------------------------
+  # Step 1: Pull previous image for Docker cache acceleration
+  # ----------------------------------------------------------------------------
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        docker pull ${_REGION}-docker.pkg.dev/${PROJECT_ID}/atria/atria:latest || exit 0
+    id: 'pull-cache'
+
+  # ----------------------------------------------------------------------------
+  # Step 2: Build the production container with uv and multi-stage Dockerfile
+  # ----------------------------------------------------------------------------
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/atria/atria:${SHORT_SHA}'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/atria/atria:latest'
+      - '--cache-from'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/atria/atria:latest'
+      - '.'
+    id: 'build-image'
+    waitFor: ['pull-cache']
+
+  # ----------------------------------------------------------------------------
+  # Step 3: Push images to Google Artifact Registry
+  # ----------------------------------------------------------------------------
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '--all-tags'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/atria/atria'
+    id: 'push-image'
+    waitFor: ['build-image']
+
+  # ----------------------------------------------------------------------------
+  # Step 4: Execute Database Migrations using Cloud Run Job
+  # ----------------------------------------------------------------------------
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud run jobs update atria-migrate \
+          --image=${_REGION}-docker.pkg.dev/${PROJECT_ID}/atria/atria:${SHORT_SHA} \
+          --region=${_REGION} || true
+        gcloud run jobs execute atria-migrate --region=${_REGION} --wait || true
+    id: 'run-migrations'
+    waitFor: ['push-image']
+
+  # ----------------------------------------------------------------------------
+  # Step 5: Deploy the updated image to Cloud Run Service
+  # ----------------------------------------------------------------------------
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud run deploy atria-web \
+          --image=${_REGION}-docker.pkg.dev/${PROJECT_ID}/atria/atria:${SHORT_SHA} \
+          --region=${_REGION}
+    id: 'deploy-service'
+    waitFor: ['run-migrations']
+
+substitutions:
+  _REGION: 'us-central1'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+images:
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/atria/atria:${SHORT_SHA}'
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/atria/atria:latest'

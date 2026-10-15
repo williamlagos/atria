@@ -151,9 +151,31 @@ docker-compose -f docker-compose.prod.yml up -d
 | `CELERY_BROKER_URL` | Redis broker URL | `redis://redis:6379/0` |
 | `STRIPE_SECRET_KEY` | Stripe API Secret Key | `sk_live_...` |
 | `PAYPAL_CLIENT_ID` | PayPal REST App Client ID | `client_...` |
-| `PAYPAL_CLIENT_SECRET` | PayPal REST App Secret | `secret_...` |
 | `WEB3_PROVIDER_URL` | EVM JSON-RPC provider | `https://eth.llamarpc.com` |
 | `GEMINI_API_KEY` | Google Gemini API Key | `AIza...` |
+| `GS_BUCKET_NAME` | Google Cloud Storage media bucket | `atria-media-bucket` |
+
+### Google Cloud Platform Deployment (Free Tier + Pro Credits)
+
+Atria includes production-ready Terraform IaC and Cloud Build automation under [`deploy/gcp/`](deploy/gcp/):
+
+* **Cloud Run (v2)**: Stateless web service that automatically scales to zero when idle (**2 million requests/month Always Free**).
+* **Google Cloud Storage**: Persistent media and static asset hosting (**5 GB/month Always Free** in `us-central1`).
+* **Cloud SQL (PostgreSQL 16)**: Managed relational database (covered by Google Cloud Pro credits).
+* **Cloud Build**: Automated container builds and migration runner (**120 build-mins/day Free**).
+
+```bash
+# 1. Provision Infrastructure with Terraform
+cd deploy/gcp
+terraform init
+terraform apply -var="project_id=YOUR_GCP_PROJECT_ID"
+
+# 2. Deploy Container & Migrations
+cd ../..
+./deploy/gcp/deploy.sh
+```
+
+For full details, see the [Google Cloud Deployment Guide](deploy/gcp/README.md).
 
 ---
 

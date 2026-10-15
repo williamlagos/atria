@@ -50,6 +50,7 @@ dependencies = [
     "stripe>=7.0.0",
     "web3>=6.0.0",
     "google-genai>=2.25.0",
+    "google-cloud-storage>=2.14.0",
     "django-ship @ git+https://github.com/williamlagos/django-ship.git@master",
     "django-socialize @ git+https://github.com/williamlagos/django-socialize.git@master",
     "django-feedly @ git+https://github.com/williamlagos/django-feedly.git@master",

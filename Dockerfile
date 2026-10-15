@@ -65,5 +65,5 @@ USER django
 # Expose port
 EXPOSE 8000
 
-# Run gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "atria.wsgi"]
+# Run gunicorn with dynamic PORT support (8080 on Cloud Run, 8000 on Compose)
+CMD ["sh", "-c", "exec gunicorn --bind 0.0.0.0:${PORT:-8000} --workers ${GUNICORN_WORKERS:-2} --threads ${GUNICORN_THREADS:-4} --timeout 60 atria.wsgi"]

@@ -175,8 +175,19 @@ LOCALE_DATE = (
     "Dez",
 )
 
-# DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
-# DROPBOX_OAUTH2_TOKEN = ''
+# Storage configuration (Google Cloud Storage for Cloud Run / GCP Free Tier)
+GS_BUCKET_NAME = env("GS_BUCKET_NAME", default="")
+if GS_BUCKET_NAME:
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+        },
+    }
+    GS_DEFAULT_ACL = env("GS_DEFAULT_ACL", default="publicRead")
+    GS_QUERYSTRING_AUTH = env.bool("GS_QUERYSTRING_AUTH", default=False)
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
